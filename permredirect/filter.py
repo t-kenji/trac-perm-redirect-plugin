@@ -11,7 +11,7 @@ from trac.admin.web_ui import AdminModule
 
 class PermRedirectModule(Component):
     """Redirect users to the login screen on PermissionError."""
-    
+
     implements(IRequestFilter)
 
     redirect_login_https = BoolOption(
@@ -39,8 +39,8 @@ class PermRedirectModule(Component):
                 login_url = login_url + '?' + req.query_string
             req.redirect(login_url)
         return handler
-            
-    def post_process_request(self, req, template, data, content_type):    
+
+    def post_process_request(self, req, template, data, content_type):
         if not self.redirect_login:
             return template, data, content_type
 
@@ -49,7 +49,7 @@ class PermRedirectModule(Component):
             if req.authname != 'anonymous':
                 # Already logged in
                 return template, data, content_type
-            
+
             ref_url = req.base_url + req.path_info
             if req.query_string:
                 ref_url = ref_url + "?" + req.query_string
@@ -60,12 +60,12 @@ class PermRedirectModule(Component):
                                "to %s: %s" % (ref_url, pformat(req.environ)))
                 return template, data, content_type
 
-            
+
             login_url = req.href.login(referer=ref_url)
 
             if issubclass(exctype, PermissionError):
                 req.redirect(login_url)
-            
+
             try:
                 if req.path_info.startswith('/admin') and \
                    not AdminModule(self.env)._get_panels(req)[0]:
@@ -78,6 +78,5 @@ class PermRedirectModule(Component):
                 # It is possible the error we got called on happened inside
                 # the _get_panels call. Be sure to ignore it.
                 pass
-            
-        return template, data, content_type
 
+        return template, data, content_type
