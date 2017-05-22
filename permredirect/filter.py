@@ -3,11 +3,11 @@
 from pprint import pformat
 import sys
 
-from trac.core import *
-from trac.config import BoolOption
-from trac.web.api import IRequestFilter, RequestDone
-from trac.perm import PermissionError
 from trac.admin.web_ui import AdminModule
+from trac.config import BoolOption
+from trac.core import *
+from trac.perm import PermissionError
+from trac.web.api import HTTPNotFound, IRequestFilter, RequestDone
 
 class PermRedirectModule(Component):
     """Redirect users to the login screen on PermissionError."""
@@ -68,7 +68,7 @@ class PermRedirectModule(Component):
 
             try:
                 if req.path_info.startswith('/admin') and \
-                   not AdminModule(self.env)._get_panels(req)[0]:
+                        not AdminModule(self.env)._get_panels(req)[0]:
                     # No admin panels available, assume user should log in.
                     req.redirect(login_url)
             except RequestDone:

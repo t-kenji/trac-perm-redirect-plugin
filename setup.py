@@ -13,7 +13,7 @@ setup(
     description = 'Redirect users to the login screen on PermissionError.',
     license = 'BSD',
     keywords = 'trac plugin',
-    url = 'http://trac-hacks.org/wiki/PermRedirectPlugin',
+    url = 'https://trac-hacks.org/wiki/PermRedirectPlugin',
     classifiers = [
         'Framework :: Trac',
     ],
