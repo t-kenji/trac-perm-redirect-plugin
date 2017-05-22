@@ -5,9 +5,9 @@ import sys
 
 from trac.admin.web_ui import AdminModule
 from trac.config import BoolOption
-from trac.core import *
+from trac.core import Component, implements
 from trac.perm import PermissionError
-from trac.web.api import HTTPNotFound, IRequestFilter, RequestDone
+from trac.web.api import IRequestFilter, RequestDone
 
 class PermRedirectModule(Component):
     """Redirect users to the login screen on PermissionError."""
@@ -57,7 +57,7 @@ class PermRedirectModule(Component):
             exctype, exc = sys.exc_info()[0:2]
             if exctype is None:
                 self.log.debug("template and exctype both None for request "
-                               "to %s: %s" % (ref_url, pformat(req.environ)))
+                               "to %s: %s", ref_url, pformat(req.environ))
                 return template, data, content_type
 
 
